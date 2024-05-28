@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:pack_and_send/auth/auth_service.dart';
 import 'package:pack_and_send/components/my_button.dart';
 import 'package:pack_and_send/components/my_textfield.dart';
 
@@ -12,7 +13,31 @@ class RegisterPageMobileScaffold extends StatelessWidget {
 
   RegisterPageMobileScaffold({super.key, required this.onTap});
 
-  void register() {}
+  void register(BuildContext context) async {
+    final authService = AuthService();
+    if (_passwordController.text == _confirmPasswordController.text) {
+      try {
+        await authService.signUpWithEmailPassword(
+            _emailController.text, _passwordController.text);
+      } catch (e) {
+        if (context.mounted) {
+          showDialog(
+              context: context,
+              builder: (context) => PlatformAlertDialog(
+                    title: PlatformText(e.toString()),
+                  ));
+        }
+      }
+    } else {
+      if (context.mounted) {
+        showDialog(
+            context: context,
+            builder: (context) => PlatformAlertDialog(
+                  title: PlatformText("Passwords don't match!"),
+                ));
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +77,7 @@ class RegisterPageMobileScaffold extends StatelessWidget {
             const SizedBox(height: 25),
             MyButton(
               text: "Register",
-              onTap: register,
+              onTap: () => register(context),
             ),
             //register now
             const SizedBox(height: 25),

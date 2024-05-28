@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:pack_and_send/auth/auth_service.dart';
 import 'package:pack_and_send/components/my_button.dart';
 import 'package:pack_and_send/components/my_textfield.dart';
 
@@ -11,7 +12,21 @@ class LoginPageMobileScaffold extends StatelessWidget {
   LoginPageMobileScaffold({super.key, required this.onTap});
 
   //tap to go to register page
-  void login() {}
+  void login(BuildContext context) async {
+    final authService = AuthService();
+    try {
+      await authService.signInWithEmailPassword(
+          _emailController.text, _passwordController.text);
+    } catch (e) {
+      if (context.mounted) {
+        showDialog(
+            context: context,
+            builder: (context) => PlatformAlertDialog(
+                  title: PlatformText(e.toString()),
+                ));
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +59,7 @@ class LoginPageMobileScaffold extends StatelessWidget {
             const SizedBox(height: 25),
             MyButton(
               text: "Login",
-              onTap: login,
+              onTap: () => login(context),
             ),
             //register now
             const SizedBox(height: 25),

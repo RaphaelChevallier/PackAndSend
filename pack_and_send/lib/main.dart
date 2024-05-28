@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'package:pack_and_send/auth/login_or_register.dart';
+import 'package:pack_and_send/auth/auth_gate.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'themes/dark_mode.dart';
@@ -9,6 +9,7 @@ import 'themes/light_mode.dart';
 
 const supabaseUrl = String.fromEnvironment('SUPABASE_URL');
 const supabaseKey = String.fromEnvironment('SUPABASE_KEY');
+
 Future<void> main() async {
   await Supabase.initialize(
     url: supabaseUrl,
@@ -16,6 +17,8 @@ Future<void> main() async {
   );
   runApp(const MyApp());
 }
+
+final supabase = Supabase.instance.client;
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -37,7 +40,7 @@ class MyApp extends StatelessWidget {
             ],
             title: 'PackAndSend',
             debugShowCheckedModeBanner: false,
-            home: LoginOrRegister()),
+            home: AuthGate()),
       ),
     );
   }
