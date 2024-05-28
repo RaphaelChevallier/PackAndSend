@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:pack_and_send/auth/auth_service.dart';
+import 'package:pack_and_send/components/my_drawer.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -14,7 +15,6 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return PlatformScaffold(
       appBar: PlatformAppBar(
-        title: PlatformText("Home"),
         trailingActions: [
           PlatformIconButton(
             onPressed: logout,
@@ -22,6 +22,7 @@ class HomePage extends StatelessWidget {
           )
         ],
       ),
+      material: (_, __) => MaterialScaffoldData(drawer: const MyDrawer()),
     );
   }
 }
