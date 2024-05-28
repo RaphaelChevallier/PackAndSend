@@ -1,0 +1,32 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "pack_and_send - DEV",
+            "request": "launch",
+            "type": "dart",
+            "args": ["--dart-define-from-file=env/dev.json"]
+        },
+        {
+            "name": "pack_and_send - PROD",
+            "request": "launch",
+            "type": "dart",
+            "args": ["--dart-define-from-file=env/prod.json"]
+        },
+        {
+            "name": "pack_and_send (profile mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "pack_and_send (release mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        }
+    ]
+}
