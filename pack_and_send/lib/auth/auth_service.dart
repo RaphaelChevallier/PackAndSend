@@ -18,12 +18,11 @@ class AuthService {
   }
 
   //signup
-  Future<AuthResponse> signUpWithEmailPassword(String email, password) async {
+  Future<AuthResponse> signUpWithEmailPassword(
+      String email, password, name) async {
     try {
-      final AuthResponse res = await supabase.auth.signUp(
-        email: email,
-        password: password,
-      );
+      final AuthResponse res = await supabase.auth
+          .signUp(email: email, password: password, data: {"name": name});
       final Session? session = res.session;
       final User? user = res.user;
       return res;

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pack_and_send/auth/login_or_register.dart';
-import 'package:pack_and_send/main.dart';
 import 'package:pack_and_send/pages/home.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AuthGate extends StatelessWidget {
   const AuthGate({super.key});
@@ -10,21 +10,22 @@ class AuthGate extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: StreamBuilder(
-          stream: supabase.auth.onAuthStateChange,
+          stream: Supabase.instance.client.auth.onAuthStateChange,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());
             } else if (snapshot.hasData) {
-              switch (snapshot.data!.event.toString()) {
-                case 'AuthChangeEvent.signedIn':
+              final event = snapshot.data!.event;
+              final session = snapshot.data!.session;
+
+              switch (event) {
+                case AuthChangeEvent.signedIn:
                   return const HomePage();
-                case 'AuthChangeEvent.signedOut':
-                  return const LoginOrRegister();
-                case 'AuthChangeEvent.initialSession':
+                case AuthChangeEvent.signedOut:
+                case AuthChangeEvent.initialSession:
                   return const LoginOrRegister();
                 default:
-                  throw UnimplementedError(
-                      '${snapshot.data!.event} event has not been handled.');
+                  return const LoginOrRegister();
               }
             } else {
               return const LoginOrRegister();

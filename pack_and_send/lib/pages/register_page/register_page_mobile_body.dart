@@ -6,6 +6,7 @@ import 'package:pack_and_send/components/my_textfield.dart';
 
 class RegisterPageMobileScaffold extends StatelessWidget {
   final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _name = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController =
       TextEditingController();
@@ -18,7 +19,7 @@ class RegisterPageMobileScaffold extends StatelessWidget {
     if (_passwordController.text == _confirmPasswordController.text) {
       try {
         await authService.signUpWithEmailPassword(
-            _emailController.text, _passwordController.text);
+            _emailController.text, _passwordController.text, _name.text);
       } catch (e) {
         if (context.mounted) {
           showDialog(
@@ -60,6 +61,12 @@ class RegisterPageMobileScaffold extends StatelessWidget {
               hintText: "Email",
               obscureText: false,
               controller: _emailController,
+            ),
+            const SizedBox(height: 10),
+            MyTextField(
+              hintText: "Name",
+              obscureText: false,
+              controller: _name,
             ),
             const SizedBox(height: 10),
             MyTextField(
